@@ -123,9 +123,9 @@ impl fmt::Display for Task {
         let created_at = self.created_at.with_timezone(&Local).format("%F %H:%M");
 
         match self.state {
-            1 => write!(f, "{:<25} [{}]", self.text.green(), created_at),
-            2 => write!(f, "{:<25} [{}]", self.text.red(), created_at),
-            0 | _ => write!(f, "{:<25} [{}]", self.text.cyan(), created_at),
+            1 => write!(f, "{:<25} [{}]", self.text.strikethrough().red(), created_at),
+            2 => write!(f, "{:<25} [{}]", self.text.cyan(), created_at),
+            0 | _ => write!(f, "{:<25} [{}]", self.text.green(), created_at),
         }
     }
 }
