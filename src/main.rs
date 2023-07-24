@@ -3,10 +3,10 @@ mod cli;
 use tasks::Task;
 use cli::{Action::*, CommandLineArgs};
 
-use std::{path::PathBuf};
+use std::path::PathBuf;
 
 use structopt::StructOpt;
-use anyhow::anyhow;
+use anyhow;
 
 fn find_default_journal_file() -> Option<PathBuf> {
     home::home_dir().map(|mut path| {
@@ -29,6 +29,7 @@ fn main() -> anyhow::Result<()> {
         Add { text } => tasks::add_task(journal_file, Task::new(text)),
         List => tasks::list_tasks(journal_file),
         Done { position } => tasks::complete_task(journal_file, position),
+        Update { idx, state } => tasks::update_state(journal_file, idx, state)
     }?;
     Ok(())
 }

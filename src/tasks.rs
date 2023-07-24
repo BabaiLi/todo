@@ -10,6 +10,7 @@ use colored::Colorize;
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Task {
     pub text: String,
+    pub state: usize,
 
     #[serde(with = "ts_seconds")]
     pub created_at: DateTime<Utc>,
@@ -18,7 +19,8 @@ pub struct Task {
 impl Task {
     pub fn new(text: String) -> Task {
         let created_at: DateTime<Utc> = Utc::now();
-        Task { text, created_at }
+        let state = 0;
+        Task { text, state, created_at }
     }
 }
 
@@ -31,6 +33,26 @@ pub fn add_task(journal_path: PathBuf, task: Task) -> Result<()> {
 
     let mut tasks = collect_tasks(&file)?;
     tasks.push(task);
+    serde_json::to_writer(file, &tasks)?;
+    Ok(())
+}
+
+pub fn update_state(journal_path: PathBuf, idx: usize, state: usize) -> Result<()> {
+    let file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .open(journal_path)?;
+
+    let mut tasks = collect_tasks(&file)?;
+
+    if idx == 0 || idx > tasks.len() {
+        return Err(Error::new(ErrorKind::InvalidInput, "Invalid Task ID"));
+    }
+    
+    let created_at: DateTime<Utc> = Utc::now();
+    let _ = std::mem::replace(&mut tasks[idx - 1].state, state);
+    let _ = std::mem::replace(&mut tasks[idx - 1].created_at, created_at);
+    file.set_len(0)?;
     serde_json::to_writer(file, &tasks)?;
     Ok(())
 }
@@ -85,6 +107,11 @@ fn collect_tasks(mut file: &File) -> Result<Vec<Task>> {
 impl fmt::Display for Task {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
         let created_at = self.created_at.with_timezone(&Local).format("%F %H:%M");
-        write!(f, "{:<50} [{}]", self.text.cyan(), created_at)
+
+        match self.state {
+            1 => write!(f, "{:<25} [{}]", self.text.green(), created_at),
+            2 => write!(f, "{:<25} [{}]", self.text.red(), created_at),
+            0 | _ => write!(f, "{:<25} [{}]", self.text.cyan(), created_at),
+        }
     }
 }

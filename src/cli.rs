@@ -6,13 +6,19 @@ use structopt::StructOpt;
 pub enum Action {
     Add {
         #[structopt()]
-        text: String
+        text: String,
     },
     Done {
         #[structopt()]
         position: usize
     },
     List,
+    Update {
+        #[structopt()]
+        idx: usize,
+        #[structopt()]
+        state: usize,
+    }
 }
 
 #[derive(Debug, StructOpt)]
