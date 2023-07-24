@@ -29,7 +29,8 @@ fn main() -> anyhow::Result<()> {
         Add { text } => tasks::add_task(journal_file, Task::new(text)),
         List => tasks::list_tasks(journal_file),
         Done { position } => tasks::complete_task(journal_file, position),
-        Update { idx, state } => tasks::update_state(journal_file, idx, state)
+        Update { idx, state } => tasks::update_state(journal_file, idx, state),
+        Clear => tasks::clear_task(journal_file),
     }?;
     Ok(())
 }

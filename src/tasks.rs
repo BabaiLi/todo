@@ -93,6 +93,20 @@ pub fn list_tasks(journal_path: PathBuf) -> Result<()> {
     Ok(())
 }
 
+pub fn clear_task(journal_path: PathBuf) -> Result<()> {
+    let file = OpenOptions::new()
+        .read(true)
+        .write(true)
+        .create(true)
+        .open(journal_path)?;
+
+    let mut tasks = collect_tasks(&file)?;
+    tasks.clear();
+    file.set_len(0)?;
+    serde_json::to_writer(file, &tasks)?;
+    Ok(())
+}
+
 fn collect_tasks(mut file: &File) -> Result<Vec<Task>> {
     file.seek(SeekFrom::Start(0))?;
     let tasks = match serde_json::from_reader(file) {

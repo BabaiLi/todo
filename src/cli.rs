@@ -18,7 +18,8 @@ pub enum Action {
         idx: usize,
         #[structopt()]
         state: usize,
-    }
+    },
+    Clear,
 }
 
 #[derive(Debug, StructOpt)]
