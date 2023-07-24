@@ -1,4 +1,4 @@
 # todo
 ---
 
-![image]("./media/todo.gif)
+![image]("media/todo.gif")
