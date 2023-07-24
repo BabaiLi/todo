@@ -1,4 +1,4 @@
 # todo
 ---
 
-![image]("./media/todo.gif")
+![image](https://raw.githubusercontent.com/BabaiLi/todo/main/media/todo.gif)
