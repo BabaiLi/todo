@@ -8,7 +8,6 @@ use std::fs::File;
 
 use structopt::StructOpt;
 use anyhow;
-use colored::*;
 
 fn find_default_journal_file() -> Option<PathBuf> {
     home::home_dir().map(|mut path| {
@@ -18,8 +17,6 @@ fn find_default_journal_file() -> Option<PathBuf> {
 }
 
 fn main() -> anyhow::Result<()> {
-    control::set_virtual_terminal(true).unwrap();
-
     let CommandLineArgs {
         action,
         file,
