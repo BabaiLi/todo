@@ -4,10 +4,10 @@ use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
 pub enum Action {
-    #[structopt(about = "Add new task")]
+    #[structopt(about = "Add new tasks")]
     Add {
         #[structopt()]
-        text: String,
+        text: Vec<String>,
     },
     #[structopt(about = "Update task status")]
     Update {

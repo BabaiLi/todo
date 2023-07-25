@@ -24,7 +24,7 @@ impl Task {
     }
 }
 
-pub fn add_task(journal_path: PathBuf, task: Task) -> Result<()> {
+pub fn add_task(journal_path: PathBuf, task: Vec<String>) -> Result<()> {
     let file = OpenOptions::new()
         .read(true)
         .write(true)
@@ -32,7 +32,8 @@ pub fn add_task(journal_path: PathBuf, task: Task) -> Result<()> {
         .open(journal_path)?;
 
     let mut tasks = collect_tasks(&file)?;
-    tasks.push(task);
+    task.into_iter().for_each(|t| tasks.push(Task::new(t)));
+    //tasks.push(task);
     serde_json::to_writer(file, &tasks)?;
     Ok(())
 }

@@ -1,6 +1,5 @@
 mod tasks;
 mod cli;
-use tasks::Task;
 use cli::{Action::*, CommandLineArgs};
 
 use std::path::PathBuf;
@@ -31,7 +30,7 @@ fn main() -> anyhow::Result<()> {
     }
 
     match action {
-        Add { text } => tasks::add_task(journal_file, Task::new(text)),
+        Add { text } => tasks::add_task(journal_file, text),
         Update { idx, state } => tasks::update_state(journal_file, idx, state),
         List => tasks::list_tasks(journal_file),
         Done => tasks::complete_task(journal_file),
