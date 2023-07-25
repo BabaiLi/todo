@@ -4,21 +4,23 @@ use structopt::StructOpt;
 
 #[derive(Debug, StructOpt)]
 pub enum Action {
+    #[structopt(about = "Add new task")]
     Add {
         #[structopt()]
         text: String,
     },
-    Done {
-        #[structopt()]
-        position: usize
-    },
-    List,
+    #[structopt(about = "Update task status")]
     Update {
         #[structopt()]
         idx: usize,
         #[structopt()]
         state: usize,
     },
+    #[structopt(about = "Marks task as done")]
+    Done,
+    #[structopt(about = "List all tasks")]
+    List,
+    #[structopt(about = "Clear all tasks")]
     Clear,
 }
 
@@ -31,5 +33,5 @@ pub struct CommandLineArgs {
     #[structopt(subcommand)]
     pub action: Action,
     #[structopt(parse(from_os_str), short, long)]
-    pub journal_file: Option<PathBuf>,
+    pub file: Option<PathBuf>,
 }

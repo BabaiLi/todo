@@ -57,18 +57,14 @@ pub fn update_state(journal_path: PathBuf, idx: usize, state: usize) -> Result<(
     Ok(())
 }
 
-pub fn complete_task(journal_path: PathBuf, task_position: usize) -> Result<()> {
+pub fn complete_task(journal_path: PathBuf) -> Result<()> {
     let file = OpenOptions::new()
         .read(true)
         .write(true)
         .open(journal_path)?;
 
     let mut tasks = collect_tasks(&file)?;
-
-    if task_position == 0 || task_position > tasks.len() {
-        return Err(Error::new(ErrorKind::InvalidInput, "Invalid Task ID"));
-    }
-    tasks.remove(task_position - 1);
+    tasks.retain(|x| x.state != 1);
 
     file.set_len(0)?;
     serde_json::to_writer(file, &tasks)?;
@@ -76,7 +72,11 @@ pub fn complete_task(journal_path: PathBuf, task_position: usize) -> Result<()> 
 }
 
 pub fn list_tasks(journal_path: PathBuf) -> Result<()> {
-    let file = OpenOptions::new().read(true).open(journal_path)?;
+    
+
+    let file = OpenOptions::new()
+        .read(true)
+        .open(journal_path)?;
 
     let tasks = collect_tasks(&file)?;
 
@@ -97,7 +97,6 @@ pub fn clear_task(journal_path: PathBuf) -> Result<()> {
     let file = OpenOptions::new()
         .read(true)
         .write(true)
-        .create(true)
         .open(journal_path)?;
 
     let mut tasks = collect_tasks(&file)?;

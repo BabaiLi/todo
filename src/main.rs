@@ -4,6 +4,7 @@ use tasks::Task;
 use cli::{Action::*, CommandLineArgs};
 
 use std::path::PathBuf;
+use std::fs::File;
 
 use structopt::StructOpt;
 use anyhow;
@@ -18,20 +19,25 @@ fn find_default_journal_file() -> Option<PathBuf> {
 
 fn main() -> anyhow::Result<()> {
     control::set_virtual_terminal(true).unwrap();
+
     let CommandLineArgs {
         action,
-        journal_file,
+        file,
     } = CommandLineArgs::from_args();
 
-    let journal_file = journal_file
+    let journal_file = file
         .or_else(find_default_journal_file)
         .expect("Failed to find journal file");
 
+    if let true = !journal_file.exists() {
+        File::create(&journal_file)?;
+    }
+
     match action {
         Add { text } => tasks::add_task(journal_file, Task::new(text)),
-        List => tasks::list_tasks(journal_file),
-        Done { position } => tasks::complete_task(journal_file, position),
         Update { idx, state } => tasks::update_state(journal_file, idx, state),
+        List => tasks::list_tasks(journal_file),
+        Done => tasks::complete_task(journal_file),
         Clear => tasks::clear_task(journal_file),
     }?;
     Ok(())
