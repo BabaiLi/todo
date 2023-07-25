@@ -21,8 +21,8 @@ Available commands:
     - clear
         clear all tasks
         Example: todo clear
-    - update [INDEX] [STATUD]
-        update task status, 
+    - update [INDEX] [STATE]
+        update task state, 
             * 0 for new/incomplete, and font color will be green
             * 1 for complete, and font color will be red
             * 2 for suspend, and font color will be cyan
