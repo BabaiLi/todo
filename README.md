@@ -10,8 +10,8 @@
 A command line to-do app written in Rust
 Available commands:
     - add [TASK]
-        adds new task
-        Example: todo add "buy carrots"
+        adds new tasks
+        Example: todo add "giant panda" "polar bear" "brown bear"
     - list
         lists all tasks
         Example: todo list
