@@ -1,6 +1,6 @@
-# todo
+# todo: A command line to-do app written in Rust
 ---
-A command line to-do app written in Rust
+
 ![image](https://raw.githubusercontent.com/BabaiLi/todo/main/media/todo.gif)
 
 # usage
