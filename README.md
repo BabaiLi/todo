@@ -6,6 +6,7 @@
 # usage
 ---
 
+```
 A command line to-do app written in Rust
 Available commands:
     - add [TASK]
@@ -20,6 +21,7 @@ Available commands:
     - clear
         clear all tasks
         Example: todo clear
+```
     - update [INDEX] [STATUD]
         update task status, 
             0 for new/incomplete, and font color will be green
