@@ -15,9 +15,9 @@ Available commands:
     - list
         lists all tasks
         Example: todo list
-    - done [INDEX]
-        marks task as done
-        Example: todo done 2
+    - done
+        marks task as done which state is 1
+        Example: todo done
     - clear
         clear all tasks
         Example: todo clear
