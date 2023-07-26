@@ -55,7 +55,7 @@ pub struct SubClear {}
 pub struct CommandLineArgs {
     #[argh(subcommand)]
     pub action: Action,
-    /// input file name that can be wriiten
+    /// input file name that can be written
     #[argh(option)]
     pub file: Option<PathBuf>,
 }
